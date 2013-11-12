@@ -1,35 +1,52 @@
 This is a slightly modified version of my 2nd place entry to the Kaggle Stumbleup Evergreen competision.
 
-== Overview ==
+Overview
+-----------
 
-This model only uses the provided textual features. It extracts text from the html. It extracts boilerplate (additionally to the one provided) using boilerpipe.
+This model only uses textual features from the provided features. First I extract text from the html. I also extract 
+boilerplate using boilerpipe (additionally to the one provided).
 
-Instead of training one classifer on each tag (h1, title, boilerplate, ...), I found it to work better emperically to use linear combinations of tags (e.g. 5 * h1 + title * ...). I did not manage to find a way to esitmate the parameters in way which prevents overfitting on this noisy dataset, therefore I went for a brute force approach, just calculate lot's of combination and throw them all in an ensemble. For this end, I implemented a simple parser to the name of the dataset.
+Instead of training one classifer on each tag (h1, title, boilerplate, ...), I found it to work better emperically 
+to use linear combinations of tags (e.g. 5 * h1 + title * ...). I did not manage to find a way to esitmate the 
+tag weights in way which prevents overfitting on this noisy dataset, therefore I went for a brute force approach: 
+just calculate lots of combination and throw them all in an ensemble. For this end, I implemented a simple parser, 
+which parses the name of the dataset (e.g. 10 * title + body).
 
-I used the same brute force approach to preprocessing. I used stemming, tf-idf, lsi (svd), lda for preprocessing. 
+I used the same brute force approach to preprocessing, apyling stemming, tf-idf, lsi (svd), lda to every dataset. The 
+only classifier used is logisitic regression. This way I ended up with 260 models.
 
-The only classifier used is logisitic regression. Other classifiers (e.g. Random Forest), did not seem to improve the final result. No parameter search is preformed. This becomes less importaint / contra-productive when constructing ensembles.
+Other classifiers (e.g. Random Forest), did not seem to improve the final result. Also parameter search is preformed. 
+This becomes less importaint / contra-productive when constructingensembles.
 
-I included two ways of producing the final ensemble. One using Least Squares for selecting the best model and then averaging them. The other is combiting all models using a Gradient Boosting Machine.
+I included 3 ways of producing the final ensemble: simple average, using Least Squares for selecting the best model and then 
+averaging them, using ls to select what model are averaged.
 
 All results are cached, so e.g. when you add another classifier it should not take more then a few minutes.
 
-== Changes compared to my actual submission ==
+Changes compared to my actual submission
+-----------
 
-The mainly I removed all code that did not make it into final submission, which would have made it difficult to follow what this code does. I also removed some 'secret source', which only had a small contribution to the final score, but which I might want to reuse for another competision. Also the submission, which I selected, did include the GTB model.
+I also removed some 'secret source', which has to not been published yet. 
 
-== Getting it running ==
+Getting it running
+-----------
 
 Install requirements
 
-  pip install -r requirements.txt 
+  ```pip install -r requirements.txt ```
 
 Place the competition data into data/ and unzip raw_content.zip into data/raw_content/
 
 Extract text from html and create word count matrices.
 
-  python src/parse_html.py && python src/count_words.py
+  ```python src/parse_html.py && python src/count_words.py```
 
-This should not take more than 30 minutes. Now run the actual model.
+This should not take more than 30 minutes. Now train the actual models:
 
-  python src/train.py 
+  ```python src/train_models.py```
+  
+This takes about 120 minutes. Now you can get the final score with:
+
+  ```python src/ensemble.py```
+  
+  That's it.
