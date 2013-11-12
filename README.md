@@ -15,18 +15,18 @@ which parses the name of the dataset (e.g. 10 * title + body).
 I used the same brute force approach to preprocessing, apyling stemming, tf-idf, lsi (svd), lda to every dataset. The 
 only classifier used is logisitic regression. This way I ended up with 260 models.
 
-Other classifiers (e.g. Random Forest), did not seem to improve the final result. Also parameter search is preformed. 
-This becomes less importaint / contra-productive when constructingensembles.
+Other classifiers (e.g. Random Forest), did not seem to improve the final result. Also no parameter search is preformed. 
+Afterall, the best parameters per classifier are not necessarily the onces that improve the ensemble.
 
-I included 3 ways of producing the final ensemble: simple average, using Least Squares for selecting the best model and then 
-averaging them, using ls to select what model are averaged.
+I included 3 ways of producing the final ensemble: simple average, using least squares for selecting the best model and then 
+averaging them, using least squares to select what model are averaged.
 
 All results are cached, so e.g. when you add another classifier it should not take more then a few minutes.
 
 Changes compared to my actual submission
 -----------
 
-I also removed some 'secret source', which has to not been published yet. 
+I removed some 'secret source', which has to not been published yet. This code would give you a private leaderboard score of 0.88752 (or 6th place).
 
 Getting it running
 -----------
