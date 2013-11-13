@@ -12,14 +12,14 @@ tag weights in way which prevents overfitting on this noisy dataset, therefore I
 just calculate lots of combination and throw them all in an ensemble. For this end, I implemented a simple parser, 
 which parses the name of the dataset (e.g. 10 * title + body).
 
-I used the same brute force approach to preprocessing, applying stemming, tf-idf, lsi (svd), lda to every dataset. The 
-only classifier used is logistic regression. This way I ended up with 260 models.
+I used the same brute force approach to preprocessing, applying stemming, tf-idf, lsi (svd), lda to every dataset. This 
+way I ended up with 260 models.
 
-Other classifiers (e.g. Random Forest), did not seem to improve the final result. Also no parameter search is preformed. 
+The only classifier used is logistic regression. Other classifiers (e.g. Random Forest), did not seem to improve the final result. Also no parameter search is preformed. 
 After all, the best parameters per classifier are not necessarily the ones that improve the ensemble.
 
 I included 3 ways of producing the final ensemble: simple average, weighted average using least squares and using least 
-squares to select what model are averaged (this works best).
+squares to select what models are averaged (this works best).
 
 All results are cached, so e.g. when you add another classifier it should not take more then a few minutes.
 
