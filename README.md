@@ -18,8 +18,8 @@ only classifier used is logistic regression. This way I ended up with 260 models
 Other classifiers (e.g. Random Forest), did not seem to improve the final result. Also no parameter search is preformed. 
 After all, the best parameters per classifier are not necessarily the ones that improve the ensemble.
 
-I included 3 ways of producing the final ensemble: simple average, using least squares for selecting the best model and then 
-averaging them, using least squares to select what model are averaged.
+I included 3 ways of producing the final ensemble: simple average, weighted average using least squares and using least 
+squares to select what model are averaged (this works best).
 
 All results are cached, so e.g. when you add another classifier it should not take more then a few minutes.
 
