@@ -6,10 +6,12 @@ from scipy.optimize import nnls
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.cross_validation import KFold
 
+
 def auc(s):
     labels = get_labels()
     v = roc_auc_score(labels, s[:len(labels)])
     return round(v, 5)
+
 
 def weighted(data, labels):
     weights, _ = nnls(data[:len(labels)], labels)
@@ -17,7 +19,8 @@ def weighted(data, labels):
 
 def weight_selected(data, labels):
     weights, _ = nnls(data[:len(labels)], labels)
-    return data[:,weights > 0].mean(axis=1)
+    return data[:, weights > 0].mean(axis=1)
+
 
 def main():
     scores = load('scores')
@@ -28,24 +31,25 @@ def main():
 
     print 'Best Model:',
     print max([(auc(scores[name]), name) for name in scores])
-    print 
+    print
     print auc(scores_with_raw.mean(axis=1)),
     print 'Simple Average'
     print auc(weighted(scores_with_raw, labels)),
     print 'Weighted'
     print auc(weight_selected(scores_with_raw, labels)),
     print 'Weight selected'
-    print 
+    print
     print auc(scores_without_raw.mean(axis=1)),
     print 'Simple Average (without raw)'
     print auc(weighted(scores_without_raw, labels)),
     print 'Weighted (without raw)'
     print auc(weight_selected(scores_without_raw, labels)),
     print 'Weight selected (without raw)'
-    print 
+    print
 
     final = weight_selected(scores_without_raw, labels)
     submit(final[len(labels):])
+
 
 if __name__ == "__main__":
     main()

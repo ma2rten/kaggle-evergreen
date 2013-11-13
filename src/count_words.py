@@ -6,7 +6,6 @@ from operator import itemgetter
 from sklearn.feature_extraction import DictVectorizer
 from parse_html import clean_string, TAGS
 
-splitter = re.compile(r'\W+')
 
 def main():
     # load data
@@ -34,10 +33,13 @@ def main():
     save('text_features', features)
     save('text_vectorizer', v)
 
+
 def tokenize(string):
     string = re.sub(r'[0-9]', '0', string)
-    words = splitter.split(string)
+    words = re.split(r'\W+', string)
+
     return map(None, words)
+
 
 def count(texts):
     counter = Counter()
@@ -48,11 +50,13 @@ def count(texts):
 
     return counter
 
+
 def get(tag, items):
     for item in items:
         yield item[tag] if (tag in item) else []
 
     total = Counter()
+
 
 def sum_up(counts, n):
     tags = list(counts)

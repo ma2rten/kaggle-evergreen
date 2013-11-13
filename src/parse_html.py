@@ -7,8 +7,11 @@ from bs4 import BeautifulSoup
 from util import *
 from data import get_test, get_train
 
-# html tasg of interest
-TAGS = ['title', 'h1', 'h2', 'h3', 'meta-description', 'meta-keywords', 'img', 'a', 'other']
+
+# html tags of interest
+TAGS = ['title', 'h1', 'h2', 'h3', 'meta-description', 'meta-keywords',
+        'img', 'a', 'other']
+
 
 def main():
     data = get_train() + get_test()
@@ -17,7 +20,7 @@ def main():
 
     for i, item in enumerate(data):
         # status update
-        if i%500 == 0:
+        if (i % 500) == 0:
             print i, datetime.datetime.now().time()
 
         #  parse file
@@ -79,16 +82,18 @@ def main():
 
     f.close()
 
+
 def clean_string(s):
     s = unicode(s)
     s = unidecode(s).lower()
     s = re.sub(r"\s+", ' ', s)
     return s.strip()
 
-def boil_soup(urlid, parser="lxml"):
-    filename = 'data/raw_content/'+urlid
 
-    with file(filename, 'rb') as f: 
+def boil_soup(urlid, parser="lxml"):
+    filename = 'data/raw_content/' + urlid
+
+    with file(filename, 'rb') as f:
         html = f.read()
 
         for parser in ["lxml", "xml", "html5lib"]:
@@ -97,6 +102,7 @@ def boil_soup(urlid, parser="lxml"):
                 return soup
 
         return BeautifulSoup(html)
+
 
 if __name__ == "__main__":
     main()
